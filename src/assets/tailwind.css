@@ -6,6 +6,9 @@
 html, body{
   font-family: "Montserrat", sans-serif;
 }
+#search::placeholder{
+  color: white;
+}
 .loading{
   width: 125px;
   height: 125px;

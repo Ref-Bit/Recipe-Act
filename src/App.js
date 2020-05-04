@@ -1,11 +1,14 @@
 import React from 'react';
 import { Index } from './components';
+import { GlobalProvider } from './context/Global';
 
 function App() {
   return (
-    <div className="App">
-      <Index />
-    </div>
+    <GlobalProvider>
+      <div className="App">
+        <Index />
+      </div>
+    </GlobalProvider>
   );
 }
 

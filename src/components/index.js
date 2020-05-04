@@ -1,1 +1,1 @@
-export { default as Index } from './layout/Index'
+export { default as Index } from './layout/Master'
