@@ -22,8 +22,8 @@
     "eject": "react-scripts eject",
     "start-js": "react-scripts start",
     "build-js": "react-scripts build",
-    "build:css": "postcss src/assets/tailwind.css -o src/assets/css/main.min.css",
-    "watch:css": "postcss src/assets/tailwind.css -o src/assets/css/main.min.css --watch"
+    "build:css": "postcss src/assets/css/tailwind.css -o src/assets/css/main.min.css",
+    "watch:css": "postcss src/assets/css/tailwind.css -o src/assets/css/main.min.css --watch"
   },
   "eslintConfig": {
     "extends": "react-app"

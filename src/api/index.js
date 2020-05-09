@@ -9,3 +9,11 @@ export const getRandomRecipe = async () => {
 
   return meals[0]
 }
+
+export const getRecipeCategories = async () => {
+  let changeURL = `${apiURL}/categories.php`
+
+  const { data: {categories} } = await axios.get(changeURL);
+
+  return categories
+}
