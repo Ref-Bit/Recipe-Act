@@ -16,26 +16,32 @@
   border-radius: 3px;
 }
 html, body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: "Jost", sans-serif;
 }
 button:focus {
   outline: none;
   box-shadow: none;
 }
-#search::placeholder{
-  color: white;
-}
-#logo{
-  font-family: "Dancing Script", sans-serif;
-}
-.content-wrap{
-  padding-bottom: 2.5rem;
-}
 footer{
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 2.5rem;
+}
+
+#search::placeholder{
+  color: white;
+}
+
+#logo{
+  font-family: "Dancing Script", sans-serif;
+}
+
+.content-wrap{
+  padding-bottom: 2.5rem;
 }
 
 .loading{
@@ -344,8 +350,7 @@ footer{
   font-weight: 600;
 }
 
-.cont_tabs > ul > li:first-child > button
-{
+.cont_tabs > ul > li:first-child > button{
   -webkit-transition: all 0.5s;
   -o-transition: all 0.5s;
   transition: all 0.5s;
