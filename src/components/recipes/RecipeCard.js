@@ -1,16 +1,24 @@
-import React, { useContext } from 'react'
-import { GlobalContext } from '../../context/Global'
+import React, { useState, useEffect  } from 'react'
+import { getRandomRecipe } from '../../api'
 import Spinner from '../layout/Spinner'
 import IngredientIcon from '../../assets/images/ingredients.png'
 import YoutubeIcon from '../../assets/images/youtube.png'
 import ReferenceIcon from '../../assets/images/reference.png'
 
 export default () => {
-  const { recipe } = useContext(GlobalContext)
+  const [ recipe, setRecipe ] = useState({})
   
-  if (recipe === null || recipe === undefined || recipe.length === 0) return <Spinner />
-  else{
+  useEffect(() => {
+    getRandomRecipe()
+    .then(data => {
+      setRecipe(data)
+    })
+    .catch( err => console.log(err))
+  }, [])
 
+  if (recipe === null || recipe === undefined || recipe.length === 0) return <Spinner />
+  
+  else{
     window.onload = () => document.querySelector('.cont_modal').className = "cont_modal";
 
     const RenderTags = () => {
@@ -119,7 +127,8 @@ export default () => {
     
   
     return (
-      <div className="mb-8">
+      <div className="my-12 mx-auto px-4 md:px-12">
+        <h1 className="text-4xl text-center">Random Recipe</h1>
         <div className="cont_principal">
           <div className="cont_central">
             <div className="cont_modal cont_modal_active">

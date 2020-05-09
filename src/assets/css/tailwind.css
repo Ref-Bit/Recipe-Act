@@ -28,6 +28,15 @@ button:focus {
 #logo{
   font-family: "Dancing Script", sans-serif;
 }
+.content-wrap{
+  padding-bottom: 2.5rem;
+}
+footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+}
 
 .loading{
   width: 125px;
