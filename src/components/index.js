@@ -1,1 +1,6 @@
 export { default as Index } from './layout/Master'
+export { default as NavBar } from './layout/NavBar'
+export { default as Footer } from './layout/Footer'
+export { default as Spinner } from './layout/Spinner'
+export { default as Recipe } from './recipes/RecipeCard'
+export { default as ViewRecipe } from './recipes/ViewRecipe'

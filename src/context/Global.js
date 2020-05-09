@@ -25,7 +25,7 @@ export const GlobalProvider = ({children}) => {
     useEffect(() => {
       getRandomRecipe()
       .then(data => {
-        console.log(data)
+        console.log(data);
         fetchRandomRecipe(data)
       })
       .catch( err => console.log(err))
@@ -37,6 +37,7 @@ export const GlobalProvider = ({children}) => {
     <GlobalContext.Provider value={{
       recipe: state.recipe,
       heading: state.heading,
+      fetchRandomRecipe
     }}>
       {children}
     </GlobalContext.Provider>

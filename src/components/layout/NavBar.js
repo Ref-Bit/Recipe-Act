@@ -1,12 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Search from './Search'
+import { Link } from 'react-router-dom'
+import { GlobalContext } from '../../context/Global'
 
 export default () => {
+  const { recipe, heading } = useContext(GlobalContext)
+
+  const refreshRecipe = () => {
+    window.location.assign(`${window.location.origin}/recipes/${recipe.idMeal}`)
+  }
+
   return (
-    <div>
-      <nav className="flex items-center justify-between flex-wrap bg-orange-500 p-6">
+    <React.Fragment>
+      <nav className="flex items-baseline justify-between flex-wrap bg-orange-400 p-6 mb-5">
         <div className="flex items-center flex-shrink-0 text-white mr-6">
-          <span className="font-semibold text-xl tracking-tight">Recipe Act</span>
+          <Link to={'/'}>
+            <span className="font-semibold text-4xl tracking-tight" id="logo">Recipe Act</span>
+          </Link>
         </div>
         <div className="block lg:hidden">
           <button className="flex items-center px-3 py-2 border rounded text-orange-200 border-orange-400 hover:text-white hover:border-white">
@@ -14,16 +24,16 @@ export default () => {
           </button>
         </div>
         <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-          <div className="text-sm lg:flex-grow">
-            {/* <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-              Docs
-            </a> */}
+          <div className="text-lg lg:flex-grow">
+            <Link to={`/recipes/${recipe.idMeal}`} heading={heading} className="block mt-4 lg:inline-block lg:mt-0 text-red-600 hover:text-white mr-4 transition duration-300 font-semibold" onClick={refreshRecipe}>
+              Random Recipe
+            </Link>
           </div>
-          <div>
+          <div className="text-lg md:flex-grow" style={{display:'contents'}}>
             <Search />
           </div>
         </div>
       </nav>
-    </div>
+    </React.Fragment>
   )
 }
