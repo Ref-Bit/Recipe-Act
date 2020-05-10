@@ -1,8 +1,60 @@
-import React, { useContext } from 'react'
-import { GlobalContext } from '../../context/Global'
+import React, { useState, useEffect } from 'react'
+import { getExactRecipe } from '../../api'
+import { Link } from 'react-router-dom'
+import { Spinner } from '..'
+import YoutubeIcon from '../../assets/images/youtube.png'
+import ReferenceIcon from '../../assets/images/reference.png'
+import IngredientIcon from '../../assets/images/ingredients.png'
 
-export default () => {
-  const { recipe } = useContext(GlobalContext)
+export default props => {
+  const [ recipe, setRecipe ] = useState([])
+
+  useEffect(() => {
+    getExactRecipe(props.match.params.id)
+    .then((data)=>{
+      setRecipe(data)
+    }).catch( err => console.log(err))
+  }, [props.match.params.id])
+
+  const RenderIndgredientsMeasures = () => {
+    if (recipe.strIndgredients1 === null || recipe.strMeasure1 === null) return ''
+    else{
+      const getValues = Object.values(recipe);
+
+      // Slice desired arrays from the main array and clean them up from empty values
+      let indgredients = getValues.slice(9, 29).filter( item => { return (item !== undefined && item !== '' && item !== null) });
+      let measures = getValues.slice(29, 49).filter( item => { return (item !== undefined && item !== '' && item !== null) });
+          
+      // Define empty object to combine above arrays
+      let joined = {}; 
+  
+      // Auto fill the empty object with CUSTOM KEYS AND VALUES(Properties)
+      for(let i = 0; i < measures.length; i++){ 
+        joined[indgredients[i]] = measures[i]; 
+      } 
+      
+      // Define empty array to render the HTML elements properly
+      const renderJoined = [];
+
+      // Destructure the array into its key and property.
+      for (const [indgredient, measure] of Object.entries(joined)) {
+        renderJoined.push(
+          <React.Fragment key={indgredient}>
+            <div className="cont_info_ingredient">
+              <img src={IngredientIcon} alt='Ingredients with Measures'/>                
+              <p><Link to={`/recipes/ingredients/${indgredient}`} className="font-semibold hover:text-indigo-700 transition duration-500"> {indgredient}</Link>: {measure}</p>                
+            </div>
+          </React.Fragment>
+        )
+      }
+
+      return(
+        <div>
+          {renderJoined}
+        </div>  
+      )
+    }
+  }
 
   const CategoryIcon = () => {
     switch (recipe.strCategory) {
@@ -24,29 +76,74 @@ export default () => {
       default: return <i className="fas fa-utensils"></i>
     }
   }
-
-  return (
-    <React.Fragment>
-      <div className="flex justify-center flex-col my-5">
-        <div className="w-1/2 border hover:shadow-lg transition duration-300">
-          <div className="px-6 py-4">
-            <h4 className="font-semibold text-xl mb-2"><i className="fas fa-utensils"></i> {recipe.strMeal}</h4>
-            <p className="text-gray-700 text-sm"><CategoryIcon /> {recipe.strCategory}</p>
-          </div>
-          <hr />
-          <div className="px-6 py-4">
-            <div className="my-2">
-              <h4 className="text-xl font-semibold mb-2">Directions</h4>
-              <p className="text-sm">{recipe.strInstructions}</p>
+  
+  if(recipe === null || recipe === undefined || recipe.length === 0) return <Spinner />
+  
+  else{
+    return (
+      <React.Fragment>
+        <div className="flex justify-center flex-col my-5">
+          <div className="w-1/2 border-b-4 border-orange-600 hover:border-red-600 rounded-b shadow hover:shadow-xl transition duration-300">
+            <div className="px-6 py-4">
+              <h4 className="font-semibold text-xl mb-2"><i className="fas fa-utensils"></i> {recipe.strMeal}</h4>
             </div>
             <hr />
-            <div className="btn btn-dark btn-block my-3">
-              <a href={recipe.strYoutube} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 transition duration-300 ease-in-out bg-red-700 hover:bg-gray-700 transform hover:-translate-y-1 hover:scale-110" target="_blank" rel="noopener noreferrer">View on Youtube <i className="fab fa-youtube"></i></a>
-              <a href={recipe.strSource} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 transition duration-300 ease-in-out bg-teal-700 hover:bg-gray-700 transform hover:-translate-y-1 hover:scale-110" target="_blank" rel="noopener noreferrer">View Source <i className="fas fa-external-link-alt"></i></a>
+            <figure className="imghvr-shutter-out-diag-2 bg-red-300 transition duration-500">
+              <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+              <figcaption className="flex justify-between items-end content-end">
+                <Link to={`/recipes/categories/${recipe.strCategory}`}>
+                  <p className="text-white text-2xl"><CategoryIcon /> {recipe.strCategory}</p>
+                </Link>
+                <Link to={`/recipes/cuisines/${recipe.strArea}`}>
+                  <p className="text-white text-2xl">
+                    <svg className="inline-block mx-1 fill-current text-white" enableBackground="new 0 0 512.001 512.001" height="24" viewBox="0 0 512.001 512.001" width="24" xmlns="http://www.w3.org/2000/svg"><g><path d="m401.903 120.522c-10.038-27.464-27.936-51.99-51.239-69.945-27.339-21.063-60.073-32.196-94.663-32.196s-67.325 11.133-94.664 32.196c-23.303 17.955-41.201 42.481-51.239 69.945-60.917 1.204-110.098 51.132-110.098 112.332 0 29.326 11.232 57.077 31.627 78.14 16.937 17.491 38.677 28.823 62.322 32.708v55.298h324.102v-55.298c23.646-3.885 45.386-15.217 62.322-32.708 20.395-21.063 31.627-48.814 31.627-78.14.001-61.2-49.18-111.128-110.097-112.332z"/><path d="m93.95 478.62c0 8.284 6.716 15 15 15h294.102c8.284 0 15-6.716 15-15v-49.62h-324.102z"/></g></svg>
+                  {recipe.strArea}</p>
+                </Link>
+              </figcaption>
+            </figure>
+            <div className="px-6 py-4">
+              <div className="my-2">
+                <h4 className="text-xl font-semibold mb-2">Directions</h4>
+                <p className="text-md">{recipe.strInstructions}</p>
+              </div>
+              <hr />
             </div>
+            <div className="px-6 py-4">
+              <div className="my-2">
+                <h4 className="text-xl font-semibold mb-2">Ingredients</h4>
+                <RenderIndgredientsMeasures />
+              </div>
+              <hr />
+            </div>
+              {recipe.strSource === null && recipe.strYoutube === null 
+                ? ''
+                : <div className="px-6 py-4">
+                    <h4 className="text-xl font-semibold">Learn How</h4>
+                    <div className="flex flex-wrap justify-evenly">
+                    {recipe.strYoutube !== null 
+                      ? <figure className="w-16 text-center">
+                          <a data-fancybox href={recipe.strYoutube}>
+                            <img src={YoutubeIcon} alt="Youtube Link" width="64px"/>
+                            <figcaption>YouTube</figcaption>
+                          </a>
+                        </figure>
+                      : ''  
+                    }
+                    {recipe.strSource !== null 
+                      ? <figure className="w-16 text-center">
+                          <a href={recipe.strSource} target="_blank" rel="noopener noreferrer">
+                            <img src={ReferenceIcon} alt="Source Link"/>
+                            <figcaption>Source</figcaption>
+                          </a>
+                        </figure>
+                      : ''
+                    }
+                    </div>
+                  </div>
+              } 
           </div>
         </div>
-      </div>
-    </React.Fragment>
-  )
+      </React.Fragment>
+    )
+  }
 }

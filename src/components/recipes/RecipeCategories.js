@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { getRecipeCategories } from '../../api'
 import { Spinner } from '..'
 
@@ -7,15 +8,7 @@ export default () => {
 
   useEffect(() => {
     getRecipeCategories()
-    .then(data => {
-      /* Sort Data Array alphabetically based on Category Name */
-      data.sort((a, b) => {
-        if(a.strCategory < b.strCategory) { return -1; }
-        if(a.strCategory > b.strCategory) { return 1; }
-        return 0;
-      })
-      setCategories(data)
-    })
+    .then(data => setCategories(data))
     .catch( err => console.log(err))
   }, [])
 
@@ -33,7 +26,9 @@ export default () => {
                   <article className="overflow-hidden rounded-lg shadow border-b-4 border-orange-600  hover:border-red-600 hover:shadow-2xl transtion duration-500">
                     <img alt={category.strCategory} className="block h-auto w-full" src={category.strCategoryThumb}/>
                     <div className="flex items-center justify-between leading-tight p-2 md:p-4">
-                      <h1 className="text-xl font-semibold">{category.strCategory}</h1>
+                      <Link to={`/recipes/categories/${category.strCategory}`}>
+                        <h1 className="text-xl font-semibold">{category.strCategory}</h1>
+                      </Link>
                       <button>
                         <i className="fa fa-heart text-orange-600 hover:text-red-600 transition duration-500 text-xl" title="Like"></i>
                       </button>

@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 
 export default () => {
 
+/* 
   const refreshRecipe = () => {
     window.location.assign(`${window.location.origin}/recipes/random`)
   }
-
+*/
   return (
     <React.Fragment>
       <nav className="flex items-baseline justify-between flex-wrap bg-orange-400 p-6 mb-5">
@@ -23,9 +24,9 @@ export default () => {
         </div>
         <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
           <div className="text-lg lg:flex-grow">
-            <Link to={'/recipes/random'} className="block mt-4 lg:inline-block lg:mt-0 text-red-600 hover:text-white mr-4 transition duration-300 font-semibold" onClick={refreshRecipe}>
+            {/* <Link to={'/recipes/random'} className="block mt-4 lg:inline-block lg:mt-0 text-red-600 hover:text-white mr-4 transition duration-300 font-semibold" onClick={refreshRecipe}>
               Random Recipe
-            </Link>
+            </Link> */}
             <Link to={'/recipes/categories'} className="block mt-4 lg:inline-block lg:mt-0 text-red-600 hover:text-white mr-4 transition duration-300 font-semibold">
               Recipe Categories
             </Link>

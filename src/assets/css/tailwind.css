@@ -40,6 +40,13 @@ footer{
   font-family: "Dancing Script", sans-serif;
 }
 
+#random-recipe{
+  position: absolute;
+  top: 17.5rem;
+  left: 17.5rem;
+  padding: .5rem 0;
+}
+
 .content-wrap{
   padding-bottom: 2.5rem;
 }
@@ -561,4 +568,11 @@ footer{
   line-height: 2;
   border: 1px solid #ddd;
   border-radius: .25em;
+}
+
+[class*=" imghvr-"] a, [class^=imghvr-] a{
+  position: relative;
+}
+[class*=" imghvr-"] figcaption, [class^=imghvr-] figcaption{
+  background-color: blueviolet;
 }

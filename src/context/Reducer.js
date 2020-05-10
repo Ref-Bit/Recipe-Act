@@ -1,6 +1,7 @@
 export default (state, action) => {
   switch (action.type) {
-    case 'GET_RANDOM_RECIPE': return {...state, recipe: action.payload, heading: 'Random Recipe'};
+    case 'GET_RECIPE_CATEGORIES_NAMES': return {...state, recipe_categories: action.payload, heading: 'Recipe Categories'};
+    case 'GET_LETTERS': return {...state, letters: action.payload };
     default: return state;
   }
 }
