@@ -4,11 +4,6 @@ import { Link } from 'react-router-dom'
 
 export default () => {
 
-/* 
-  const refreshRecipe = () => {
-    window.location.assign(`${window.location.origin}/recipes/random`)
-  }
-*/
   return (
     <React.Fragment>
       <nav className="flex items-baseline justify-between flex-wrap bg-orange-400 p-6 mb-5">

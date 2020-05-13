@@ -13,10 +13,13 @@ export const getExactRecipe = async (id) => {
 
 export const getRandomRecipe = async () => {
   let changeURL = `${apiURL}/random.php`
-
-  const { data: {meals} } = await axios.get(changeURL);
-
-  return meals[0]
+  try {
+    const { data: {meals} } = await axios.get(changeURL);
+  
+    return meals[0]   
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const getRecipeCategories = async () => {
@@ -29,6 +32,14 @@ export const getRecipeCategories = async () => {
 
 export const getRecipeCategoriesNamesOnly = async () => {
   let changeURL = `${apiURL}/list.php?c=list`
+
+  const { data: {meals} } = await axios.get(changeURL);
+
+  return meals
+}
+
+export const getRecipeAreasNamesOnly = async () => {
+  let changeURL = `${apiURL}/list.php?a=list`
 
   const { data: {meals} } = await axios.get(changeURL);
 
@@ -70,3 +81,4 @@ export const filterByFirstLetter = async (letter) => {
   
   return meals
 }
+

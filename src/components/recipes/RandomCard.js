@@ -73,8 +73,8 @@ export default () => {
         const getValues = Object.values(recipe);
 
         // Slice desired arrays from the main array and clean them up from empty values
-        let indgredients = getValues.slice(9, 29).filter( item => { return (item !== undefined || item !== '' || item !== null) });
-        let measures = getValues.slice(29, 49).filter( item => { return (item !== undefined || item !== '' || item !== null) });
+        let indgredients = getValues.slice(9, 29).filter( item => { return (item !== undefined && item !== '' && item !== null) });
+        let measures = getValues.slice(29, 49).filter( item => { return (item !== undefined && item !== '' && item !== null) });
             
         // Define empty object to combine above arrays
         let joined = {}; 
@@ -137,7 +137,7 @@ export default () => {
     
   
     return (
-      <div id="random-recipe" className="my-6 mx-auto px-4 md:px-12">
+      <div id="random-recipe" className="my-12 mx-auto px-4 md:px-12">
         <div className="cont_principal">
           <div className="cont_central">
             <div className="cont_modal cont_modal_active">

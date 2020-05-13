@@ -1,28 +1,47 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { filterByCategory, filterByFirstLetter } from '../../api'
+import { filterByCategory, filterByFirstLetter, filterByArea } from '../../api'
+import { useRandomMealsTimer } from '../../helpers'
 import { GlobalContext } from '../../context/Global'
 import { Spinner } from '..'
-import RandomCard from '../recipes/RandomCard'
+import { RandomRecipe, RecipeCard } from '../index'
 
 export default () => {
-  const { recipe_categories, letters } = useContext(GlobalContext)
+  const randomMeals = useRandomMealsTimer()
+  const { recipe_categories, letters, areas } = useContext(GlobalContext)
   const [ filteredData, setFilteredData ] = useState([])
 
-  const getCategoryFilterResult = async (category) => {
-    const data = await filterByCategory(category);
-    setFilteredData(data)
+  const getCategoryFilterResult = async e => {
+    e.persist() //To access the event properties in an asynchronous way
+
+    if (e.target.value !== "initial") {
+      const data = await filterByCategory(e.target.value);
+      setFilteredData(data)
+    }else {
+      return ''
+    }
   }
 
-  const getFirstLetterFilterResult = async (letter) => {
-    const data = await filterByFirstLetter(letter);
-    setFilteredData(data)
-  }
-  //https://medium.com/@loons.create/react-hooks-how-to-use-usestate-and-useeffect-example-914c161df34d
-  // useEffect(() => {
-  //   getCategoryFilterResult()
+  const getFirstLetterFilterResult = async e => {
+    e.persist() //To access the event properties in an asynchronous way
 
-  // }, [])
+    if (e.target.value !== "initial") {
+      const data = await filterByFirstLetter(e.target.value);
+      setFilteredData(data)
+    }else {
+      return ''
+    }
+  }
+
+  const getAreaFilterResult = async e => {
+    e.persist() //To access the event properties in an asynchronous way
+
+    if (e.target.value !== "initial") {
+      const data = await filterByArea(e.target.value);
+      setFilteredData(data)
+    }else {
+      return ''
+    }
+  }
 
   if(recipe_categories === null || recipe_categories === undefined || recipe_categories.length === 0) return <Spinner />
   else{
@@ -30,52 +49,74 @@ export default () => {
       <React.Fragment>
       <div className="min-h-screen">
         <h1 className="text-4xl text-center">Random Recipe</h1>
-        <RandomCard />
+        <RandomRecipe />
       </div>
-      <div id="category_filter" className="py-6">
-        <h1 className="text-4xl pb-4 text-center">Filter By Category</h1>
-        <div className="button-group filter-button-group inline-flex">
-          {
-            recipe_categories.map((category, i) => (
-              <React.Fragment key={i}>
-                <button onClick={() => getCategoryFilterResult(category.strCategory) } className="ml-1 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:shadow-lg transition duration-500">{category.strCategory}</button>
-              </React.Fragment>
-            ))
-          }
+
+      <div className="min-h-screen">
+        <h1 className="text-4xl text-center">Random Recipes</h1>
+          <div className="my-12 mx-auto px-4 md:px-12">
+            <div className="flex flex-wrap -mx-1 lg:-mx-4 justify-evenly">
+            {
+              randomMeals.map((recipe, i) => (
+                <React.Fragment key={i}>
+                  <RecipeCard recipe={recipe} />
+                </React.Fragment>
+              ))
+            }
+          </div>
         </div>
       </div>
-      <div id="letters_filter" className="py-6">
-        <h1 className="text-4xl pb-4 text-center">Filter By First Letter</h1>
-        <div className="button-group filter-button-group inline-flex">
-          {
-            letters.map((letter, i) => (
-              <React.Fragment key={i}>
-                <button onClick={() => getFirstLetterFilterResult(letter) } className="ml-1 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:shadow-lg transition duration-500 uppercase">{letter}</button>
-              </React.Fragment>
-            ))
-          }
+
+      {/* FILETRS */}
+      <div id="filters" className="py-6 flex flex-wrap justify-center">
+        <div id="cuisine_filter" className="relative inline-flex mx-2">
+          <svg className="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fillRule="nonzero"/></svg>
+          <select onChange={getAreaFilterResult} className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+            <option value="initial">Filter By Cuisine</option>
+            {
+              areas.map((area, i) => (
+                <React.Fragment key={i}>
+                  <option value={area.strArea}>{area.strArea}</option>
+                </React.Fragment>
+              ))
+            }
+          </select>
+        </div>
+        <div id="letters_filter" className="relative inline-flex mx-2">
+          <svg className="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fillRule="nonzero"/></svg>
+          <select onChange={getFirstLetterFilterResult} className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+            <option value="initial">Filter By First Letter</option>
+            {
+              letters.map((letter, i) => (
+                <React.Fragment key={i}>
+                  <option value={letter} className="uppercase">{letter}</option>
+                </React.Fragment>
+              ))
+            }
+          </select>
+        </div>
+        <div id="cuisine_filter" className="relative inline-flex mx-2">
+          <svg className="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fillRule="nonzero"/></svg>
+          <select onChange={getCategoryFilterResult} className="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+            <option value="initial">Filter By Category</option>
+            {
+              recipe_categories.map((category, i) => (
+                <React.Fragment key={i}>
+                  <option value={category.strCategory}>{category.strCategory}</option>
+                </React.Fragment>
+              ))
+            }
+          </select>
         </div>
       </div>
 
       {/* Render Filter Results */}
-      <div className="my-12 mx-auto px-4 md:px-12">
+      <div className="my-6 mx-auto px-4 md:px-12">
         <div className="flex flex-wrap -mx-1 lg:-mx-4">
           {
             filteredData.map((recipe, i) => (
               <React.Fragment key={i}>
-                <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/4">
-                  <article className="overflow-hidden rounded-lg shadow border-b-4 border-orange-600  hover:border-red-600 hover:shadow-2xl transtion duration-500">
-                  <Link to={`/recipes/${recipe.idMeal}/view`}>  
-                    <img alt={recipe.strCategory} className="block h-auto w-full" src={recipe.strMealThumb}/>
-                    <div className="flex items-center justify-between leading-tight p-2 md:p-4">
-                      <h1 className="text-xl font-semibold">{recipe.strMeal}</h1>
-                      <button>
-                        <i className="fa fa-heart text-orange-600 hover:text-red-600 transition duration-500 text-xl" title="Like"></i>
-                      </button>
-                    </div>
-                  </Link>
-                  </article>
-                </div>
+                <RecipeCard recipe={recipe} />
               </React.Fragment>
             ))
           }
