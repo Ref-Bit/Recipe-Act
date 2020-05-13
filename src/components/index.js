@@ -9,3 +9,5 @@ export { default as ViewCategory } from './recipes/ViewCategory'
 export { default as ViewArea } from './recipes/ViewArea'
 export { default as ViewIngredient } from './recipes/ViewIngredient'
 export { default as RecipeCard } from './recipes/RecipeCard'
+export { default as IndgredientsMeasures } from './recipes/IndgredientsMeasures'
+

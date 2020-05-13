@@ -26,6 +26,7 @@ export const getRecipeCategories = async () => {
   let changeURL = `${apiURL}/categories.php`
 
   const { data: {categories} } = await axios.get(changeURL);
+  sortCategoriesAlphabetically(categories)
 
   return categories
 }
@@ -34,6 +35,7 @@ export const getRecipeCategoriesNamesOnly = async () => {
   let changeURL = `${apiURL}/list.php?c=list`
 
   const { data: {meals} } = await axios.get(changeURL);
+  sortCategoriesAlphabetically(meals)
 
   return meals
 }

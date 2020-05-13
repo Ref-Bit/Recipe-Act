@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { getExactRecipe, filterByCategory, getIngredientImage } from '../../api'
+import { getExactRecipe, filterByCategory } from '../../api'
 import { shuffle } from '../../helpers'
 import { Link } from 'react-router-dom'
-import { Spinner } from '..'
+import { Spinner, IndgredientsMeasures } from '..'
 import YoutubeIcon from '../../assets/images/youtube.png'
 import ReferenceIcon from '../../assets/images/reference.png'
-import IngredientIcon from '../../assets/images/ingredients.png'
 import { GlobalContext } from '../../context/Global'
 
 export default props => {
@@ -24,73 +23,6 @@ export default props => {
     }).catch( err => console.log(err))
 
   }, [props.match.params.id])
-
-  const RenderIndgredientsMeasures = () => {
-    if (recipe.strIndgredients1 === null || recipe.strMeasure1 === null) return ''
-    else{
-      const getValues = Object.values(recipe);
-
-      // Slice desired arrays from the main array and clean them up from empty values
-      let indgredients = getValues.slice(9, 29).filter( item => { return (item !== undefined || item !== '' || item !== null) });
-      let measures = getValues.slice(29, 49).filter( item => { return (item !== undefined || item !== ' ' || item !== null) });
-
-      // Define empty object to combine above arrays
-      let joined = {}; 
-  
-      // Auto fill the empty object with CUSTOM KEYS AND VALUES(Properties)
-      for(let i = 0; i < measures.length; i++){ 
-        joined[indgredients[i]] = measures[i]; 
-      } 
-      
-      // Define empty array to render the HTML elements properly
-      const renderJoined = [];
-
-      // Destructure the array into its key and property.
-      for (const [indgredient, measure] of Object.entries(joined)) {
-        renderJoined.push(
-          <React.Fragment key={indgredient}>
-            <Link to={`/recipes/ingredients/${indgredient}`} >
-              <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 inline-block">
-                <img src={indgredient !== undefined
-                  ? `https://www.themealdb.com/images/ingredients/${indgredient}.png` 
-                  :  IngredientIcon
-                }
-                      alt={indgredient}/>                
-                  <p className="text-center capitalize"><span className="font-semibold hover:text-indigo-700 transition duration-500"> {indgredient}</span>: {measure}</p>                
-              </div>
-            </Link>
-          </React.Fragment>
-        )
-      }
-
-      return(
-        <div>
-          {renderJoined.slice(0, -1)}
-        </div>  
-      )
-    }
-  }
-  
-  const CategoryIcon = () => {
-    switch (recipe.strCategory) {
-      case 'Beef': return <i className="fas fa-bacon"></i>
-      case 'Breakfast': return <i className="fas fa-egg"></i>
-      case 'Chicken': return <i className="fas fa-drumstick-bite"></i>
-      case 'Dessert': return <i className="fas fa-stroopwafel"></i>
-      case 'Goat': return <i className="fas fa-bacon"></i>
-      case 'Lamb': return <i className="fas fa-bacon"></i>
-      case 'Miscellaneous': return <i className="fas fa-cookie"></i>
-      case 'Pasta': return <i className="fas fa-bacon"></i>
-      case 'Pork': return <i className="fas fa-bacon"></i>
-      case 'Seafood': return <i className="fas fa-fish"></i>
-      case 'Side': return <i className="fas fa-hamburger"></i>
-      case 'Starter': return <i className="fas fa-hotdog"></i>
-      case 'Vegan': return <i className="fas fa-carrot"></i>
-      case 'Vegetarian': return <i className="fas fa-seedling"></i>
-
-      default: return <i className="fas fa-utensils"></i>
-    }
-  }
   
   if(recipe === null || recipe === undefined || recipe.length === 0) return <Spinner />
   
@@ -100,13 +32,16 @@ export default props => {
         <div className="flex justify-center flex-row flex-wrap my-5">
           <div className="w-3/5 border-b-4 border-orange-600 hover:border-red-600 rounded-b shadow hover:shadow-xl transition duration-500">
             <hr />
-            <figure className="imghvr-shutter-out-diag-2 w-full bg-red-300 transition duration-500">
+            <figure className="imghvr-shutter-out-diag-2 w-full">
               <img className="w-full" src={recipe.strMealThumb} alt={recipe.strMeal} />
               <figcaption className="flex justify-center items-center">
               </figcaption>
               <figcaption className="flex justify-between items-end content-end">
                 <Link to={`/recipes/categories/${recipe.strCategory}`}>
-                  <p className="text-white text-2xl"><CategoryIcon /> {recipe.strCategory}</p>
+                  <p className="text-white text-2xl">
+                    <img className="inline-block mx-1 mb-2" src={`${process.env.PUBLIC_URL}/images/${recipe.strCategory.toLowerCase()}-white.png`} alt={recipe.strCategory} width="28px"/>
+                    <span>{recipe.strCategory}</span>
+                  </p>
                 </Link>
                 <Link to={`/recipes/cuisines/${recipe.strArea}`}>
                   <p className="text-white text-2xl">
@@ -119,22 +54,22 @@ export default props => {
               <div className="my-2">
                 <h4 className="font-semibold text-4xl mb-2"><i className="fas fa-utensils"></i> {recipe.strMeal}</h4>
                 <br />
-                <h4 className="text-xl mb-2">Directions</h4>
-                <p className="text-md">{recipe.strInstructions}</p>
+                <h4 className="text-2xl text-center mb-2">Directions</h4>
+                <p className="text-md text-justify">{recipe.strInstructions}</p>
               </div>
               <hr />
             </div>
             <div className="px-6 py-4">
               <h4 className="text-2xl text-center mb-2">Ingredients</h4>
               <div className="flex flex-wrap justify-evenly overflow-hidden -mx-1 lg:-mx-4">
-                <RenderIndgredientsMeasures />
+                <IndgredientsMeasures recipe={recipe} />
               </div>
               <hr />
             </div>
               {recipe.strSource === null && recipe.strYoutube === null 
                 ? ''
                 : <div className="px-6 py-4">
-                    <h4 className="text-xl font-semibold">Learn How</h4>
+                    <h4 className="text-2xl text-center">Learn How</h4>
                     <div className="flex flex-wrap justify-evenly">
                     {recipe.strYoutube !== null 
                       ? <figure className="w-16 text-center">
@@ -160,7 +95,7 @@ export default props => {
           </div>
           <div className="w-2/5 text-center">
             <h4 className="font-semibold text-2xl mb-2">Related Recipes</h4>
-            <div className="flex flex-wrap mx-2 lg:mx-4">
+            <div className="flex flex-wrap mx-2 lg:mx-4 my-6">
             {
               shuffle(related).slice(0, 6).map((item, i) => (
               <React.Fragment key={i}>
@@ -178,7 +113,27 @@ export default props => {
               ))
             }
             </div>
+            <h4 className="font-semibold text-2xl mb-2">Recipes Categories</h4>
+            <div className="flex flex-wrap justify-evenly mx-2 lg:mx-4 my-6">
+              {
+              recipe_categories.map((category, i) => (
+                <React.Fragment key={i}>
+                  <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/4">
+                    <Link to={`/recipes/categories/${category.strCategory}`}>
+                      <figure className="text-center overflow-hidden">
+                        <img src={`${process.env.PUBLIC_URL}/images/${category.strCategory.toLowerCase()}.png`} alt={category.strCategory} />
+                        <figcaption>
+                          <h4 className="text-center m-2">{category.strCategory}</h4>
+                        </figcaption> 
+                      </figure>
+                    </Link>
+                  </div>
+                </React.Fragment>
+              ))
+              }
+            </div>
           </div>
+
         </div>
       </React.Fragment>
     )
