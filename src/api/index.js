@@ -81,4 +81,3 @@ export const filterByFirstLetter = async (letter) => {
   
   return meals
 }
-

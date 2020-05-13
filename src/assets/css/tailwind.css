@@ -43,7 +43,7 @@ footer{
 #random-recipe{
   position: absolute;
   top: 17.5rem;
-  left: 30rem;
+  left: calc(30rem - 17.5rem);
   padding: .5rem 0;
   transition: 0.5s ease;
   transition-delay: .7s;

@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { getExactRecipe, filterByCategory } from '../../api'
+import React, { useState, useEffect, useContext } from 'react'
+import { getExactRecipe, filterByCategory, getIngredientImage } from '../../api'
 import { shuffle } from '../../helpers'
 import { Link } from 'react-router-dom'
 import { Spinner } from '..'
 import YoutubeIcon from '../../assets/images/youtube.png'
 import ReferenceIcon from '../../assets/images/reference.png'
 import IngredientIcon from '../../assets/images/ingredients.png'
+import { GlobalContext } from '../../context/Global'
 
 export default props => {
   const [ recipe, setRecipe ] = useState([])
   const [ related, setRelated ] = useState([])
-  
+  const { recipe_categories } = useContext(GlobalContext)
+
   useEffect(() => {
     getExactRecipe(props.match.params.id)
     .then((data)=>{
@@ -29,9 +31,9 @@ export default props => {
       const getValues = Object.values(recipe);
 
       // Slice desired arrays from the main array and clean them up from empty values
-      let indgredients = getValues.slice(9, 29).filter( item => { return (item !== undefined && item !== '' && item !== null) });
-      let measures = getValues.slice(29, 49).filter( item => { return (item !== undefined && item !== '' && item !== null) });
-          
+      let indgredients = getValues.slice(9, 29).filter( item => { return (item !== undefined || item !== '' || item !== null) });
+      let measures = getValues.slice(29, 49).filter( item => { return (item !== undefined || item !== ' ' || item !== null) });
+
       // Define empty object to combine above arrays
       let joined = {}; 
   
@@ -47,22 +49,28 @@ export default props => {
       for (const [indgredient, measure] of Object.entries(joined)) {
         renderJoined.push(
           <React.Fragment key={indgredient}>
-            <div className="cont_info_ingredient">
-              <img src={IngredientIcon} alt='Ingredients with Measures'/>                
-              <p><Link to={`/recipes/ingredients/${indgredient}`} className="font-semibold hover:text-indigo-700 transition duration-500"> {indgredient}</Link>: {measure}</p>                
-            </div>
+            <Link to={`/recipes/ingredients/${indgredient}`} >
+              <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 inline-block">
+                <img src={indgredient !== undefined
+                  ? `https://www.themealdb.com/images/ingredients/${indgredient}.png` 
+                  :  IngredientIcon
+                }
+                      alt={indgredient}/>                
+                  <p className="text-center capitalize"><span className="font-semibold hover:text-indigo-700 transition duration-500"> {indgredient}</span>: {measure}</p>                
+              </div>
+            </Link>
           </React.Fragment>
         )
       }
 
       return(
         <div>
-          {renderJoined}
+          {renderJoined.slice(0, -1)}
         </div>  
       )
     }
   }
-
+  
   const CategoryIcon = () => {
     switch (recipe.strCategory) {
       case 'Beef': return <i className="fas fa-bacon"></i>
@@ -110,15 +118,15 @@ export default props => {
             <div className="px-6 py-4">
               <div className="my-2">
                 <h4 className="font-semibold text-4xl mb-2"><i className="fas fa-utensils"></i> {recipe.strMeal}</h4>
-
-                <h4 className="text-xl font-semibold mb-2">Directions</h4>
+                <br />
+                <h4 className="text-xl mb-2">Directions</h4>
                 <p className="text-md">{recipe.strInstructions}</p>
               </div>
               <hr />
             </div>
             <div className="px-6 py-4">
-              <div className="my-2">
-                <h4 className="text-xl font-semibold mb-2">Ingredients</h4>
+              <h4 className="text-2xl text-center mb-2">Ingredients</h4>
+              <div className="flex flex-wrap justify-evenly overflow-hidden -mx-1 lg:-mx-4">
                 <RenderIndgredientsMeasures />
               </div>
               <hr />
@@ -158,7 +166,7 @@ export default props => {
               <React.Fragment key={i}>
                 <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                   <Link to={`/recipes/${item.idMeal}/view`}>
-                    <figure className="imghvr-shutter-out-diag-2 overflow-hidden transition duration-500">
+                    <figure className="imghvr-shutter-out-diag-2 overflow-hidden">
                       <img className="w-full" src={item.strMealThumb} alt={item.strMeal} />
                       <figcaption className="flex justify-center items-end content-end">
                         <h4>{item.strMeal}</h4>
@@ -170,7 +178,7 @@ export default props => {
               ))
             }
             </div>
-         </div>
+          </div>
         </div>
       </React.Fragment>
     )

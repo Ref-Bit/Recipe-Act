@@ -73,8 +73,8 @@ export default () => {
         const getValues = Object.values(recipe);
 
         // Slice desired arrays from the main array and clean them up from empty values
-        let indgredients = getValues.slice(9, 29).filter( item => { return (item !== undefined && item !== '' && item !== null) });
-        let measures = getValues.slice(29, 49).filter( item => { return (item !== undefined && item !== '' && item !== null) });
+        let indgredients = getValues.slice(9, 29).filter( item => { return (item !== undefined || item !== '' || item !== null) });
+        let measures = getValues.slice(29, 49).filter( item => { return (item !== undefined || item !== '' || item !== null) });
             
         // Define empty object to combine above arrays
         let joined = {}; 
@@ -91,9 +91,13 @@ export default () => {
         for (const [indgredient, measure] of Object.entries(joined)) {
           renderJoined.push(
             <React.Fragment key={indgredient}>
-              <div className="cont_info_ingredient">
-                <img src={IngredientIcon} alt='Ingredients with Measures'/>
-                <p><Link to={`/recipes/ingredients/${indgredient}`} className="font-semibold hover:text-indigo-700 transition duration-500"> {indgredient}</Link>: {measure}</p>                
+              <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 inline-block">
+                <img src={indgredient !== undefined
+                ? `https://www.themealdb.com/images/ingredients/${indgredient}.png` 
+                :  IngredientIcon
+                }
+                    alt={indgredient}/>       
+                <p className="text-center capitalize"><Link to={`/recipes/ingredients/${indgredient}`} className="font-semibold hover:text-indigo-700 transition duration-500"> {indgredient}</Link><br/> {measure}</p>                
               </div>
             </React.Fragment>
           )
@@ -101,7 +105,7 @@ export default () => {
 
         return(
           <div id="ingredients-measures" className="cont_text_det_ingredients tab-content">
-            {renderJoined}
+            {renderJoined.slice(0, -1)}
           </div>  
         )
       }
@@ -132,10 +136,8 @@ export default () => {
         eleParent.style.left = "30rem"
         ele.className = "cont_modal"
       }
-        
     }
     
-  
     return (
       <div id="random-recipe" className="my-12 mx-auto px-4 md:px-12">
         <div className="cont_principal">
