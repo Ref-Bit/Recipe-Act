@@ -135,9 +135,11 @@ export default () => {
                       <li><button className="tab-link" onClick={(e) => openTabs(e, 'view')}><h4>show how</h4></button></li>
                     </ul>  
                   </div>
-                  <IndgredientsMeasures recipe={recipe}/>
+                  <div className="cont_text_det_ingredients tab-content" id="ingredients-measures">
+                    <IndgredientsMeasures recipe={recipe}/> 
+                  </div>
                   <RenderPrep />
-                  <div id="view" className="container mx-5">
+                  <div id="view" className="container mx-5 tab-content">
                     <div className="flex justify-center align-center w-full pt-16">
                       <div className="mx-8 text-center">
                         <a data-fancybox href={recipe.strYoutube}>

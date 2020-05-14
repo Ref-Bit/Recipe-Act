@@ -8,8 +8,8 @@ export default ({recipe}) => {
     const getValues = Object.values(recipe);
 
     // Slice desired arrays from the main array and clean them up from empty values
-    let indgredients = getValues.slice(9, 29).filter( item => { return (item !== undefined || item !== '' || item !== null) });
-    let measures = getValues.slice(29, 49).filter( item => { return (item !== undefined || item !== ' ' || item !== null) });
+    let indgredients = getValues.slice(9, 29).filter( item => item );
+    let measures = getValues.slice(29, 49).filter( item => item);
 
     // Define empty object to combine above arrays
     let joined = {}; 
