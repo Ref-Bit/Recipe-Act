@@ -12,14 +12,10 @@ export default () => {
   const [ randomRecipe, setRandomRecipe ] = useState([])
 
   useEffect(() => {
-    getRandomRecipe()
-    .then(data => {
-      setRandomRecipe(data)
-    })
-    .catch( err => console.log(err))
+    getNewRecipe()
     setFilteredData(randomMeals)
   }, [randomMeals])
-
+  
   const getNewRecipe = () => {
     getRandomRecipe()
     .then(data => {
@@ -83,7 +79,7 @@ export default () => {
 
 
       {/* FILETRS */}
-      <div id="filters" className="py-6 flex flex-wrap justify-center">
+      <div id="filters" className="py-6 flex flex-wrap justify-center items-center">
         <div className="relative inline-flex mx-2">
           <svg className="w-3 h-3 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fillRule="nonzero"/></svg>
           <select id="cuisine_filter" onChange={getAreaFilterResult} className="border-2 border-gray-400 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-500 transition duration-300 focus:outline-none appearance-none">
@@ -127,14 +123,14 @@ export default () => {
 
       {/* Render Filter Results */}
       <div id="filter-results" className="my-6 mx-auto px-4 md:px-12">
-        <div className="flex flex-wrap justify-evenly -mx-1 lg:-mx-4 mb-6">
+        <div className="flex flex-wrap justify-evenly items-center -mx-1 lg:-mx-4 mb-6">
           {filteredData.length !== 0
            ? filteredData.map((recipe, i) => (
               <React.Fragment key={i}>
                 <RecipeCard recipe={recipe} />
               </React.Fragment>
             ))
-          : <h4 className="text-2xl">No data... <span role="img" aria-label="sad-face">😢</span></h4>
+          : <h4 className="text-2xl">No Meals Found... <span role="img" aria-label="sad-face">😢</span></h4>
           }
         </div>
       </div>

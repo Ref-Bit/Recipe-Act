@@ -52,7 +52,7 @@ export default props => {
             </figure>
             <div className="px-6 py-4">
               <div className="my-2">
-                <h4 className="font-semibold text-4xl mb-2"><i className="fas fa-utensils"></i> {recipe.strMeal}</h4>
+                <h4 className="text-center font-semibold text-4xl mb-2">{recipe.strMeal}</h4>
                 <br />
                 <h4 className="text-2xl text-center mb-2">Directions</h4>
                 <p className="text-md text-justify">{recipe.strInstructions}</p>

@@ -34,7 +34,7 @@ export const useRandomMealsTimer=()=>{
       })
       .catch( err => console.log(err))
       
-      if (counter === 10) {
+      if (counter === 12) {
         clearInterval(timer);
       }
     
