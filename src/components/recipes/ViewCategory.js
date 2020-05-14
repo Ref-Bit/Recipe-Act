@@ -21,8 +21,8 @@ export default props => {
     return (
       <div className="my-12 mx-auto px-4 md:px-12">
         <h1 className="text-4xl text-center mb-5">{props.match.params.category} Recipes</h1>
-        <div className="flex flex-wrap -mx-1 lg:-mx-4">
-         {recipes.map(recipe => (<RecipeCard key={recipe.idMeal} recipe={recipe}/>))}
+        <div className="flex flex-wrap justify-evenly -mx-1 lg:-mx-4">
+         {recipes.map(recipe => (<RecipeCard key={recipe.idMeal} recipe={recipe} />))}
         </div>
       </div>
     )

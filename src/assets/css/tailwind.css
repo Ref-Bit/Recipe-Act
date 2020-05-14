@@ -578,3 +578,12 @@ footer{
 [class*=" imghvr-"] figcaption, [class^=imghvr-] figcaption{
   background-color: blueviolet;
 }
+
+#random-btn:hover{
+  animation: a3 0.5s linear;
+}
+
+@keyframes a3{
+  50% { transform: rotate(45deg); }
+  100% { transform: rotate(0deg); }
+}

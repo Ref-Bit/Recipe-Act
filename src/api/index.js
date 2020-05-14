@@ -78,8 +78,17 @@ export const filterByIngredient = async (ingredient) => {
 export const filterByFirstLetter = async (letter) => {
   let changeURL = `${apiURL}/search.php?f=${letter}`
 
-  const { data: {meals} } = await axios.get(changeURL);
-  sortMealsAlphabetically(meals)
-  
-  return meals
+  try {
+    const { data: {meals} } = await axios.get(changeURL);
+    // sortMealsAlphabetically(meals)
+    if (meals !== null){
+      sortMealsAlphabetically(meals)
+      return meals
+    }else{
+      return []
+    } 
+      
+  } catch (error) {
+    console.log(error)
+  }
 }

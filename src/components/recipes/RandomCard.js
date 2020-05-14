@@ -1,25 +1,18 @@
-import React, { useState, useEffect  } from 'react'
-import { getRandomRecipe } from '../../api'
+import React from 'react'
 import { Spinner, IndgredientsMeasures } from '..'
 import YoutubeIcon from '../../assets/images/youtube.png'
 import ReferenceIcon from '../../assets/images/reference.png'
 import { Link } from 'react-router-dom'
 
-export default () => {
-  const [ recipe, setRecipe ] = useState({})
-  
-  useEffect(() => {
-    getRandomRecipe()
-    .then(data => {
-      setRecipe(data)
-    })
-    .catch( err => console.log(err))
-  }, [])
+export default ({recipe}) => {
 
   if (recipe === null || recipe === undefined || recipe.length === 0) return <Spinner />
   
   else{
-    window.onload = () => document.querySelector('.cont_modal').className = "cont_modal";
+    window.onload = () =>{
+      document.querySelector('#random-recipe').style.left="30rem";
+      document.querySelector('.cont_modal').className = "cont_modal";
+    }
 
     const RenderTags = () => {
       if (recipe.strTags === undefined || recipe.strTags === null) return ''
