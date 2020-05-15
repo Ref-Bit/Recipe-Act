@@ -11,7 +11,7 @@ export const GlobalProvider = ({children}) => {
       recipe_categories: [],
       areas: [],
       letters: [],
-      heading: 'Heading Title'
+      searched_recipe: []
     }
 
     
@@ -38,7 +38,14 @@ export const GlobalProvider = ({children}) => {
         payload: letters
       });
     }
-  
+
+    function searchRecipe(recipe){
+      dispatch({
+        type: 'SEARCH_RECIPE',
+        payload: recipe
+      });
+    }
+
     useEffect(() => {
       /* GET RECIPE CATEGORIES NAMES */
       getRecipeCategoriesNamesOnly()
@@ -65,7 +72,8 @@ export const GlobalProvider = ({children}) => {
       recipe_categories: state.recipe_categories,
       areas: state.areas,
       letters: state.letters,
-      heading: state.heading,
+      searched_recipe: state.searched_recipe,
+      searchRecipe
     }}>
       {children}
     </GlobalContext.Provider>

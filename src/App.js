@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { NavBar, Footer, Index, RandomRecipe, ViewRecipe, RecipeCategories, ViewCategory, ViewArea, ViewIngredient } from './components';
+import { NavBar, Footer, Index, RandomRecipe, ViewRecipe, RecipeCategories, ViewCategory, ViewArea, ViewIngredient, Result, NotFoundPage } from './components';
 import { GlobalProvider } from './context/Global';
 
 function App() {
@@ -18,6 +18,8 @@ function App() {
               <Route exact path="/recipes/categories/:category" component={ViewCategory}/>
               <Route exact path="/recipes/cuisines/:area" component={ViewArea}/>
               <Route exact path="/recipes/ingredients/:ingredient" component={ViewIngredient}/>
+              <Route exact path="/recipes/results" component={Result} />
+              <Route component={NotFoundPage} />
             </Switch>
           </div>
         <Footer />

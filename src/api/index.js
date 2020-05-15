@@ -80,7 +80,7 @@ export const filterByFirstLetter = async (letter) => {
 
   try {
     const { data: {meals} } = await axios.get(changeURL);
-    // sortMealsAlphabetically(meals)
+   
     if (meals !== null){
       sortMealsAlphabetically(meals)
       return meals
@@ -91,4 +91,17 @@ export const filterByFirstLetter = async (letter) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+export const searchForRecipe = async (term) => {
+  let changeURL = `${apiURL}/search.php?s=${term}`
+
+  try {
+    const { data: {meals} } = await axios.get(changeURL);
+    
+    return meals[0]
+  } catch (error) {
+    console.log(error)
+  }
+
 }
