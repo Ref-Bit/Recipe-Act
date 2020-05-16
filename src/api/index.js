@@ -99,7 +99,11 @@ export const searchForRecipe = async (term) => {
   try {
     const { data: {meals} } = await axios.get(changeURL);
     
-    return meals[0]
+    if (meals !== null){
+      return meals[0]
+    }else{
+      return []
+    } 
   } catch (error) {
     console.log(error)
   }

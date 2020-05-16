@@ -14,9 +14,8 @@ export default () => {
     
     searchForRecipe(userInput).then(data => {
       searchRecipe(data)
-      console.log(data)
-
-      history.push('/recipes/results');
+      history.push('/recipes/results', { term: userInput });
+      document.querySelector('input[type="text"]#search').value = '';
     }).catch( err => console.log(err) )
   };
 

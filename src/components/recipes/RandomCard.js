@@ -97,7 +97,7 @@ export default ({recipe}) => {
                   <div className="sub_mins">
                     <span>Category</span>
                     <h5>
-                      <Link to={`recipes/categories/${recipe.strCategory}`}>
+                      <Link to={`/recipes/categories/${recipe.strCategory}`}>
                         {recipe.strCategory}
                       </Link>
                     </h5>
@@ -109,7 +109,7 @@ export default ({recipe}) => {
                 <div className="cont_servings">
                   <span>Cuisine</span>
                   <h5>
-                    <Link to={`recipes/cuisines/${recipe.strArea}`}>
+                    <Link to={`/recipes/cuisines/${recipe.strArea}`}>
                       {recipe.strArea}
                     </Link>
                   </h5>
