@@ -17,7 +17,7 @@ export const sortCategoriesAlphabetically = data => {
   })
 }
 
-/* CUSTOM HOOK */
+/* CUSTOM HOOK To retrive one random recipe and save it N times */
 export const useRandomMealsTimer=()=>{
   const [randomMeals, setRandomMeals] = useState([]);
   const mealsArr = [];

@@ -14,9 +14,6 @@ export default () => {
         </div>
         <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
           <div className="text-lg lg:flex-grow">
-            {/* <Link to={'/recipes/random'} className="block mt-4 lg:inline-block lg:mt-0 text-red-600 hover:text-white mr-4 transition duration-300 font-semibold" onClick={refreshRecipe}>
-              Random Recipe
-            </Link> */}
             <Link to={'/recipes/categories'} className="block mt-4 lg:inline-block lg:mt-0 text-red-600 hover:text-white mr-4 transition duration-300 font-semibold">
               Recipe Categories
             </Link>
