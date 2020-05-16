@@ -1,6 +1,6 @@
 {
   "short_name": "Recipe Act",
-  "name": "Create React App Sample",
+  "name": "A web app to list a wide variety of recipes from all over world.",
   "icons": [
     {
       "src": "favicon.ico",
