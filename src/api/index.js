@@ -6,17 +6,30 @@ const apiURL = 'https://www.themealdb.com/api/json/v1/1'
 export const getExactRecipe = async (id) => {
   let changeURL = `${apiURL}/lookup.php?i=${id}`
 
-  const { data: {meals} } = await axios.get(changeURL);
+  try {
+    const { data: {meals} } = await axios.get(changeURL);
 
-  return meals[0]
+    if(meals !== null){
+      return meals[0]   
+    }else{
+      return []
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const getRandomRecipe = async () => {
   let changeURL = `${apiURL}/random.php`
+  
   try {
     const { data: {meals} } = await axios.get(changeURL);
-  
-    return meals[0]   
+
+    if(meals !== null){
+      return meals[0]   
+    }else{
+      return []
+    }
   } catch (error) {
     console.log(error)
   }
@@ -25,54 +38,106 @@ export const getRandomRecipe = async () => {
 export const getRecipeCategories = async () => {
   let changeURL = `${apiURL}/categories.php`
 
-  const { data: {categories} } = await axios.get(changeURL);
-  sortCategoriesAlphabetically(categories)
-
-  return categories
+  try {
+    const { data: {categories} } = await axios.get(changeURL);
+    
+    if (categories !== null){
+    sortCategoriesAlphabetically(categories)
+  
+    return categories
+    }else{
+      return []
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const getRecipeCategoriesNamesOnly = async () => {
   let changeURL = `${apiURL}/list.php?c=list`
 
-  const { data: {meals} } = await axios.get(changeURL);
-  sortCategoriesAlphabetically(meals)
+  try {
+    const { data: {meals} } = await axios.get(changeURL);
 
-  return meals
+    if (meals !== null){
+      sortCategoriesAlphabetically(meals)
+    
+      return meals
+    }else{
+      return []
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const getRecipeAreasNamesOnly = async () => {
   let changeURL = `${apiURL}/list.php?a=list`
 
-  const { data: {meals} } = await axios.get(changeURL);
+  try {
+    const { data: {meals} } = await axios.get(changeURL);
 
-  return meals
+    if (meals !== null){  
+      return meals
+    }else{
+      return []
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const filterByCategory = async (category) => {
   let changeURL = `${apiURL}/filter.php?c=${category}`
 
-  const { data: {meals} } = await axios.get(changeURL);
-  sortCategoriesAlphabetically(meals)
+  try {
+    const { data: {meals} } = await axios.get(changeURL);
 
-  return meals
+    if (meals !== null){
+      sortCategoriesAlphabetically(meals)
+    
+      return meals
+    }else{
+      return []
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const filterByArea = async (area) => {
   let changeURL = `${apiURL}/filter.php?a=${area}`
 
-  const { data: {meals} } = await axios.get(changeURL);
-  sortMealsAlphabetically(meals)
+  try {
+    const { data: {meals} } = await axios.get(changeURL);
 
-  return meals
+    if (meals !== null){
+      sortMealsAlphabetically(meals)
+    
+      return meals
+    }else{
+      return []
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const filterByIngredient = async (ingredient) => {
   let changeURL = `${apiURL}/filter.php?i=${ingredient}`
 
-  const { data: {meals} } = await axios.get(changeURL);
-  sortMealsAlphabetically(meals)
+  try {
+    const { data: {meals} } = await axios.get(changeURL);
 
-  return meals
+    if (meals !== null){
+      sortMealsAlphabetically(meals)
+      return meals
+    }else{
+      return []
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const filterByFirstLetter = async (letter) => {

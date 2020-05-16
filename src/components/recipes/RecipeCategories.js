@@ -18,7 +18,7 @@ export default () => {
     return (
       <div className="my-12 mx-auto px-4 md:px-12">
         <h1 className="text-4xl text-center mb-5">Recipe Categories</h1>
-        <div className="flex flex-wrap -mx-1 lg:-mx-4">
+        <div className="flex flex-wrap justify-evenly items-center -mx-1 lg:-mx-4">
           {
             categories.map((category, i) => (
               <React.Fragment key={i}>

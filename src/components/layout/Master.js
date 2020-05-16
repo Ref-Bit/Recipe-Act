@@ -130,7 +130,10 @@ export default () => {
                 <RecipeCard recipe={recipe} />
               </React.Fragment>
             ))
-          : <h4 className="text-2xl">No Meals Found... <span role="img" aria-label="sad-face">😢</span></h4>
+          : <div>
+              <h1 className="text-2xl text-center">No Recipes Found...</h1>
+              <img className="inline-block mx-auto mt-2" src={`${process.env.PUBLIC_URL}/images/no-data.svg`} alt='No Data...' width="512px"/>
+            </div>
           }
         </div>
       </div>
